@@ -1,3 +1,5 @@
+test
+
 ## Example java application
 
 ### Requirements
