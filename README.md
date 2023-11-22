@@ -1,5 +1,3 @@
-testcasdcasdcasnjidcbj hvcdxfcgcewewew
-
 ## Example java application
 
 ### Requirements
