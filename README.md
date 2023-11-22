@@ -1,4 +1,4 @@
-## Example java application
+## Example java application --
 
 ### Requirements
 
