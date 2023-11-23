@@ -3,7 +3,7 @@
 ### Requirements
 
 Java 17
-Gradle 9
+Gradle 8
 
 ### Run the security check analisys
 
