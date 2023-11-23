@@ -35,3 +35,5 @@ gradle test
 
 - `/` GET
 - `/current-connections` GET
+
+It's working!
