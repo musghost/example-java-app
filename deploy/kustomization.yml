@@ -1,0 +1,21 @@
+namespace: ma-van-bijleveld-dev
+
+resources:
+  - BuildConfig.yml
+  - Deployment.yml
+  - EventListener.yml
+  - ImageStream.yml
+  - Pipeline.yml
+  - Route.yml
+  - Service.yml
+  - Task-JavaBuild.yml
+  - Task-JavaClone.yml
+  - Task-JavaReport.yml
+  - Task-JavaSecurityDependencyAnalysisTest.yml
+  - Task-JavaTagImage.yml
+  - Task-JavaTriggerBuildConfig.yml
+  - Task-JavaUnitTest.yml
+  - Tasks.yml
+  - TriggerBinding.yml
+  - TriggerTemplate.yml
+  - kustomization.yml
