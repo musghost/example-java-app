@@ -1,0 +1,11 @@
+
+resources:
+- ImageStream.yaml
+- BuildConfig.yaml
+- Deployment.yaml
+- Service.yaml
+- Route.yaml
+- Tekton Tasks.yaml
+- Tekton Pipeline.yaml
+- EventListener, Trigger and Trigger template.yaml
+- kustomization.yaml
