@@ -1,0 +1,91 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  creationTimestamp: '2023-11-22T10:00:23Z'
+  generation: 18
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:finally': {}
+          'f:params': {}
+          'f:tasks': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-23T10:24:27Z'
+  name: opdr4-test
+  namespace: janjansenn2-dev
+  resourceVersion: '1002604730'
+  uid: 7b38b46c-5a2f-4a44-b8dd-2393cba467c3
+spec:
+  finally:
+    - name: opdr4-clean-volume
+      taskRef:
+        kind: Task
+        name: opdr4-cleanup
+      workspaces:
+        - name: volume1
+          workspace: shared-workspace
+  params:
+    - default: 'https://github.com/musghost/example-java-app.git'
+      description: The git repository URL
+      name: repo-url
+      type: string
+    - default: main
+      description: The git revision
+      name: revision
+      type: string
+  tasks:
+    - name: 1-pull
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.revision)
+      taskRef:
+        kind: Task
+        name: opdr4-1pull
+      workspaces:
+        - name: volume1
+          workspace: shared-workspace
+    - name: opdr4-2security
+      runAfter:
+        - 1-pull
+      taskRef:
+        kind: Task
+        name: opdr4-2security
+      workspaces:
+        - name: volume1
+          workspace: shared-workspace
+    - name: opdr4-3unittest
+      runAfter:
+        - opdr4-2security
+      taskRef:
+        kind: Task
+        name: opdr4-3unittest
+      workspaces:
+        - name: volume1
+          workspace: shared-workspace
+    - name: opdr4-4buildtar
+      runAfter:
+        - opdr4-3unittest
+      taskRef:
+        kind: Task
+        name: opdr4-4buildtar
+      workspaces:
+        - name: volume1
+          workspace: shared-workspace
+    - name: opdr4-ngix
+      runAfter:
+        - opdr4-4buildtar
+      taskRef:
+        kind: Task
+        name: opdr4-ngix
+      workspaces:
+        - name: volume1
+          workspace: shared-workspace
+  workspaces:
+    - name: shared-workspace

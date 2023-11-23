@@ -1,0 +1,63 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: opdr4_is
+  namespace: janjansenn2-dev
+  uid: 93366a91-2970-4ddf-9bf3-42059887c44c
+  resourceVersion: '998446806'
+  generation: 4
+  creationTimestamp: '2023-11-22T08:24:33Z'
+  annotations:
+    openshift.io/image.dockerRepositoryCheck: '2023-11-22T08:42:36Z'
+spec:
+  lookupPolicy:
+    local: false
+  tags:
+    - name: latest
+      annotations: null
+      from:
+        kind: DockerImage
+        name: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      generation: 3
+      importPolicy:
+        importMode: Legacy
+      referencePolicy:
+        type: Source
+    - name: prd
+      annotations: null
+      from:
+        kind: ImageStreamImage
+        name: >-
+          opdr4_is@sha256:033ace7f7ead1dc091fd3b55fabbd1472c918d42c245cf6d8a2eea9f01c66160
+      generation: 4
+      importPolicy:
+        importMode: Legacy
+      referencePolicy:
+        type: Source
+status:
+  dockerImageRepository: 'image-registry.openshift-image-registry.svc:5000/janjansenn2-dev/opdr4_is'
+  publicDockerImageRepository: >-
+    default-route-openshift-image-registry.apps.sandbox-m4.g2pi.p1.openshiftapps.com/janjansenn2-dev/opdr4_is
+  tags:
+    - tag: latest
+      items:
+        - created: '2023-11-22T09:10:46Z'
+          dockerImageReference: >-
+            image-registry.openshift-image-registry.svc:5000/janjansenn2-dev/opdr4_is@sha256:033ace7f7ead1dc091fd3b55fabbd1472c918d42c245cf6d8a2eea9f01c66160
+          image: >-
+            sha256:033ace7f7ead1dc091fd3b55fabbd1472c918d42c245cf6d8a2eea9f01c66160
+          generation: 3
+        - created: '2023-11-22T08:42:36Z'
+          dockerImageReference: >-
+            registry.digitalocean.com/openshiftcourse/gradle@sha256:184d2741c042cb7d640657a4e6239a6d1008ffc49c0b0dd57fe5a33b69053f99
+          image: >-
+            sha256:184d2741c042cb7d640657a4e6239a6d1008ffc49c0b0dd57fe5a33b69053f99
+          generation: 3
+    - tag: prd
+      items:
+        - created: '2023-11-22T14:08:54Z'
+          dockerImageReference: >-
+            image-registry.openshift-image-registry.svc:5000/janjansenn2-dev/opdr4_is@sha256:033ace7f7ead1dc091fd3b55fabbd1472c918d42c245cf6d8a2eea9f01c66160
+          image: >-
+            sha256:033ace7f7ead1dc091fd3b55fabbd1472c918d42c245cf6d8a2eea9f01c66160
+          generation: 4

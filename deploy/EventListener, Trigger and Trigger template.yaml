@@ -1,0 +1,150 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  creationTimestamp: '2023-11-22T13:00:12Z'
+  generation: 1
+  managedFields:
+    - apiVersion: triggers.tekton.dev/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:serviceAccountName': {}
+          'f:triggers': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T13:00:12Z'
+    - apiVersion: triggers.tekton.dev/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          .: {}
+          'f:address':
+            .: {}
+            'f:url': {}
+          'f:conditions': {}
+          'f:configuration':
+            .: {}
+            'f:generatedName': {}
+      manager: openshift-pipelines-triggers-controller
+      operation: Update
+      subresource: status
+      time: '2023-11-23T09:57:48Z'
+  name: opdr4-eventlistener1
+  namespace: janjansenn2-dev
+  resourceVersion: '1002511447'
+  uid: 116406e6-b9c8-4d09-afdd-6c9718db39d9
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+    - bindings:
+        - kind: TriggerBinding
+          ref: opdr4-trigger-binding
+      name: pr-trigger
+      template:
+        ref: opdr4-github-trigger-template
+status:
+  address:
+    url: 'http://el-opdr4-eventlistener1.janjansenn2-dev.svc.cluster.local:8080'
+  conditions:
+    - lastTransitionTime: '2023-11-23T09:57:48Z'
+      message: Deployment has minimum availability.
+      reason: MinimumReplicasAvailable
+      status: 'True'
+      type: Available
+    - lastTransitionTime: '2023-11-23T09:57:48Z'
+      message: Deployment exists
+      status: 'True'
+      type: Deployment
+    - lastTransitionTime: '2023-11-23T09:57:48Z'
+      message: >-
+        ReplicaSet "el-opdr4-eventlistener1-5fc5bbdf6f" has successfully
+        progressed.
+      reason: NewReplicaSetAvailable
+      status: 'True'
+      type: Progressing
+    - lastTransitionTime: '2023-11-23T09:57:48Z'
+      message: EventListener is ready
+      status: 'True'
+      type: Ready
+    - lastTransitionTime: '2023-11-23T09:57:48Z'
+      message: Service exists
+      status: 'True'
+      type: Service
+  configuration:
+    generatedName: el-opdr4-eventlistener1
+
+---
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  creationTimestamp: '2023-11-22T12:55:42Z'
+  generation: 5
+  managedFields:
+    - apiVersion: triggers.tekton.dev/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:params': {}
+          'f:resourcetemplates': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T13:38:42Z'
+  name: opdr4-github-trigger-template
+  namespace: janjansenn2-dev
+  resourceVersion: '998340616'
+  uid: 49091046-7172-441d-884a-ed9d144c1cdd
+spec:
+  params:
+    - default: main
+      description: The git revision
+      name: gitrevision
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1
+      kind: PipelineRun
+      metadata:
+        generateName: opdr4-pipeline-run-
+      spec:
+        params:
+          - name: repo-url
+            value: 'https://github.com/xtenone/example-java-app.git'
+          - name: revision
+            value: main
+        pipelineRef:
+          name: opdr4-test
+        workspaces:
+          - name: shared-workspace
+            persistentVolumeClaim:
+              claimName: shared-workspace-pvc
+
+---
+
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  creationTimestamp: '2023-11-22T12:59:52Z'
+  generation: 1
+  managedFields:
+    - apiVersion: triggers.tekton.dev/v1alpha1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:params': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T12:59:52Z'
+  name: opdr4-trigger-binding
+  namespace: janjansenn2-dev
+  resourceVersion: '998202423'
+  uid: f303f06a-3a56-43c2-a9f0-ab79e188dc17
+spec:
+  params:
+    - name: gitrevision
+      value: $(body.pull_request.head.sha)
+
+---
+

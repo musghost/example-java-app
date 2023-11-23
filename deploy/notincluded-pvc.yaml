@@ -1,0 +1,83 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: shared-workspace-pvc
+  namespace: janjansenn2-dev
+  uid: 0410e639-bc51-4773-aad5-59f90557ffef
+  resourceVersion: '1002453859'
+  creationTimestamp: '2023-11-23T09:41:06Z'
+  annotations:
+    pv.kubernetes.io/bind-completed: 'yes'
+    pv.kubernetes.io/bound-by-controller: 'yes'
+    volume.beta.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+    volume.kubernetes.io/selected-node: ip-10-0-233-205.ec2.internal
+    volume.kubernetes.io/storage-provisioner: ebs.csi.aws.com
+  finalizers:
+    - kubernetes.io/pvc-protection
+  managedFields:
+    - manager: Mozilla
+      operation: Update
+      apiVersion: v1
+      time: '2023-11-23T09:41:06Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:accessModes': {}
+          'f:resources':
+            'f:requests':
+              .: {}
+              'f:storage': {}
+          'f:storageClassName': {}
+          'f:volumeMode': {}
+    - manager: kube-scheduler
+      operation: Update
+      apiVersion: v1
+      time: '2023-11-23T09:41:12Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:volume.kubernetes.io/selected-node': {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: v1
+      time: '2023-11-23T09:41:15Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:pv.kubernetes.io/bind-completed': {}
+            'f:pv.kubernetes.io/bound-by-controller': {}
+            'f:volume.beta.kubernetes.io/storage-provisioner': {}
+            'f:volume.kubernetes.io/storage-provisioner': {}
+        'f:spec':
+          'f:volumeName': {}
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: v1
+      time: '2023-11-23T09:41:15Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:accessModes': {}
+          'f:capacity':
+            .: {}
+            'f:storage': {}
+          'f:phase': {}
+      subresource: status
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+  volumeName: pvc-0410e639-bc51-4773-aad5-59f90557ffef
+  storageClassName: gp3
+  volumeMode: Filesystem
+status:
+  phase: Bound
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 1Gi
