@@ -1,0 +1,24 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: java
+  namespace: ma-van-bijleveld-dev
+  uid: 7ecc14bc-7829-4412-9e3c-7aba144d2f47
+spec:
+  clusterIP: 172.30.113.9
+  ipFamilies:
+    - IPv4
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.30.113.9
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: java
+status:
+  loadBalancer: {}

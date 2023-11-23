@@ -15,7 +15,7 @@ resources:
   - Task-JavaTagImage.yml
   - Task-JavaTriggerBuildConfig.yml
   - Task-JavaUnitTest.yml
-  - Tasks.yml
+# - Tasks.yml ##### Not using.
   - TriggerBinding.yml
   - TriggerTemplate.yml
   - kustomization.yml
