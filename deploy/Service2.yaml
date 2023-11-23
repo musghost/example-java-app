@@ -1,0 +1,45 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: opdr4-ngix2
+  namespace: janjansenn2-dev
+  uid: 67c5a837-77dc-46e4-a96a-a3be99e21200
+  resourceVersion: '1003283536'
+  creationTimestamp: '2023-11-23T13:40:52Z'
+  managedFields:
+    - manager: oc
+      operation: Update
+      apiVersion: v1
+      time: '2023-11-23T13:40:52Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":8080,"protocol":"TCP"}':
+              .: {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 172.30.164.250
+  ipFamilies:
+    - IPv4
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.30.164.250
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: opdr4-nginx
+status:
+  loadBalancer: {}

@@ -1,0 +1,54 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: opdr4-ngix2
+  namespace: janjansenn2-dev
+  uid: 3f1136ae-0581-4d99-a82e-0b82d3f79f72
+  resourceVersion: '1003285502'
+  creationTimestamp: '2023-11-23T13:41:28Z'
+  annotations:
+    openshift.io/host.generated: 'true'
+  managedFields:
+    - manager: oc
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2023-11-23T13:41:28Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:port':
+            .: {}
+            'f:targetPort': {}
+          'f:to':
+            'f:kind': {}
+            'f:name': {}
+            'f:weight': {}
+          'f:wildcardPolicy': {}
+    - manager: openshift-router
+      operation: Update
+      apiVersion: route.openshift.io/v1
+      time: '2023-11-23T13:41:28Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:ingress': {}
+      subresource: status
+spec:
+  host: opdr4-ngix2-janjansenn2-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com
+  to:
+    kind: Service
+    name: opdr4-ngix2
+    weight: 100
+  port:
+    targetPort: 8080
+  wildcardPolicy: None
+status:
+  ingress:
+    - host: opdr4-ngix2-janjansenn2-dev.apps.sandbox-m4.g2pi.p1.openshiftapps.com
+      routerName: default
+      conditions:
+        - type: Admitted
+          status: 'True'
+          lastTransitionTime: '2023-11-23T13:41:28Z'
+      wildcardPolicy: None
+      routerCanonicalHostname: router-default.apps.sandbox-m4.g2pi.p1.openshiftapps.com

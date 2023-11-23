@@ -1,0 +1,45 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: opdr4-deployment1
+  namespace: janjansenn2-dev
+  uid: 44d1eb06-40c6-439e-9733-8c53367e617f
+  resourceVersion: '998124376'
+  creationTimestamp: '2023-11-22T12:38:02Z'
+  managedFields:
+    - manager: oc
+      operation: Update
+      apiVersion: v1
+      time: '2023-11-22T12:38:02Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:internalTrafficPolicy': {}
+          'f:ports':
+            .: {}
+            'k:{"port":8080,"protocol":"TCP"}':
+              .: {}
+              'f:port': {}
+              'f:protocol': {}
+              'f:targetPort': {}
+          'f:selector': {}
+          'f:sessionAffinity': {}
+          'f:type': {}
+spec:
+  clusterIP: 172.30.175.210
+  ipFamilies:
+    - IPv4
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.30.175.210
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: opdr4-deployment1
+status:
+  loadBalancer: {}

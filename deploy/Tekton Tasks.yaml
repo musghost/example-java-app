@@ -1,0 +1,252 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-22T09:21:34Z'
+  generation: 8
+  managedFields:
+    - apiVersion: tekton.dev/v1beta1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T09:53:11Z'
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          'f:params': {}
+          'f:steps': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T10:15:08Z'
+  name: opdr4-1pull
+  namespace: janjansenn2-dev
+  resourceVersion: '997618962'
+  uid: 99dc5ce4-0e1e-4a98-a1b2-3c168ce060e0
+spec:
+  params:
+    - default: 'https://github.com/musghost/example-java-app.git'
+      description: The git repository url
+      name: url
+      type: string
+    - default: main
+      description: The git revision
+      name: revision
+      type: string
+  steps:
+    - computeResources: {}
+      image: quay.io/wire/alpine-git
+      name: pull
+      script: |
+        #!/usr/bin/env sh
+        cd $(workspaces.volume1.path)
+        git clone $(params.url) app4
+        cd app4
+        git checkout $(params.revision)
+  workspaces:
+    - name: volume1
+
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-22T09:22:35Z'
+  generation: 3
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:steps': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T10:20:05Z'
+  name: opdr4-2security
+  namespace: janjansenn2-dev
+  resourceVersion: '997636215'
+  uid: 9c64dd14-27d3-46e2-9326-d1305ad8c624
+spec:
+  steps:
+    - computeResources: {}
+      image: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      name: 2-securitycheck
+      script: |
+        #!/usr/bin/env sh
+        cd $(workspaces.volume1.path)
+        cd app4
+        gradle dependencyCheckAnalyze
+  workspaces:
+    - name: volume1
+
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-22T09:22:54Z'
+  generation: 3
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:steps': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T13:54:06Z'
+  name: opdr4-3unittest
+  namespace: janjansenn2-dev
+  resourceVersion: '998394562'
+  uid: 8005d8a4-338e-4fe1-a66d-43899de48bc1
+spec:
+  steps:
+    - computeResources: {}
+      image: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      name: 3-unittest
+      script: |
+        #!/usr/bin/env sh
+        cd $(workspaces.volume1.path)
+        cd app4
+        gradle test
+  workspaces:
+    - name: volume1
+
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-22T09:23:26Z'
+  generation: 3
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:steps': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T13:54:22Z'
+  name: opdr4-4buildtar
+  namespace: janjansenn2-dev
+  resourceVersion: '998395485'
+  uid: 945a26f4-1f59-4e38-be22-9d90126efd0f
+spec:
+  steps:
+    - computeResources: {}
+      image: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      name: 4-buildtar
+      script: |
+        #!/usr/bin/env sh
+        cd $(workspaces.volume1.path)
+        cd app4
+        gradle build
+  workspaces:
+    - name: volume1
+
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-23T08:27:33Z'
+  generation: 5
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:steps': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-23T12:57:09Z'
+  name: opdr4-cleanup
+  namespace: janjansenn2-dev
+  resourceVersion: '1003132277'
+  uid: 1d7d8323-0ad0-4508-9a10-6ea562c53166
+spec:
+  steps:
+    - computeResources: {}
+      image: jitesoft/alpine
+      name: pull
+      script: |
+        #!/usr/bin/env sh
+        cd $(workspaces.volume1.path)
+        ls -a
+        rm -fr *
+        ls -a
+  workspaces:
+    - name: volume1
+
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-23T09:49:52Z'
+  generation: 20
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:steps': {}
+          'f:workspaces': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-23T13:08:03Z'
+  name: opdr4-ngix
+  namespace: janjansenn2-dev
+  resourceVersion: '1003171303'
+  uid: 929684d0-0d50-48c6-a5b1-574b5826179b
+spec:
+  steps:
+    - computeResources: {}
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: tag-imagestream-step
+      script: |
+        #!/usr/bin/env sh
+        cd $(workspaces.volume1.path)
+        cd app4
+        oc delete configmap dependency-security-report || true
+        oc create configmap dependency-security-report \
+        --from-file=index.html=build/reports/dependency-check-report.html
+  workspaces:
+    - name: volume1
+
+---
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  creationTimestamp: '2023-11-22T14:01:41Z'
+  generation: 3
+  managedFields:
+    - apiVersion: tekton.dev/v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:spec':
+          .: {}
+          'f:steps': {}
+      manager: Mozilla
+      operation: Update
+      time: '2023-11-22T14:08:40Z'
+  name: opdr4-prd
+  namespace: janjansenn2-dev
+  resourceVersion: '998445967'
+  uid: 20176fff-6927-4698-909c-856208f951f2
+spec:
+  steps:
+    - computeResources: {}
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: tag-imagestream-step
+      script: |
+        #!/usr/bin/env bash
+        oc tag opdr4_is:latest opdr4_is:prd
