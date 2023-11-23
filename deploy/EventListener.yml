@@ -1,0 +1,19 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: java
+  namespace: ma-van-bijleveld-dev
+spec:
+  namespaceSelector: {}
+  resources: {}
+  serviceAccountName: pipeline
+  triggers:
+    - bindings:
+        - kind: TriggerBinding
+          ref: java
+      name: java
+      template:
+        ref: java
+status:
+  address:
+    url: 'http://el-java.ma-van-bijleveld-dev.svc.cluster.local:8080'

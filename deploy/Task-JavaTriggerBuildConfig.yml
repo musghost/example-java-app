@@ -1,0 +1,21 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: java-trigger-buildconfig
+  namespace: ma-van-bijleveld-dev
+spec:
+  params:
+    - description: The name of the BuildConfig
+      name: buildconfig-name
+      type: string
+  steps:
+    - computeResources: {}
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: java-trigger-buildconfig
+      script: |
+        #!/usr/bin/env bash
+        cd $(workspaces.workspace-java.path)
+        set -e
+        oc start-build $(params.buildconfig-name) -n ma-van-bijleveld-dev
+  workspaces:
+    - name: workspace-java

@@ -1,0 +1,84 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: java-pipeline
+  namespace: ma-van-bijleveld-dev
+spec:
+  finally:
+    - name: cleanup
+      taskRef:
+        kind: Task
+        name: cleanup
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+  params:
+    - default: 'https://github.com/ambtenaarmitchell/example-java-app.git'
+      description: The url of the Git Repository
+      name: git-url
+      type: string
+    - default: java
+      description: The name of the BuildConfig
+      name: buildconfig-name
+      type: string
+  tasks:
+    - name: java-pull
+      params:
+        - name: git-url
+          value: $(params.git-url)
+      taskRef:
+        kind: Task
+        name: java-pull
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+    - name: java-security-dependency-analysis-test
+      runAfter:
+        - java-pull
+      taskRef:
+        kind: Task
+        name: java-security-dependency-analysis-test
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+    - name: report
+      runAfter:
+        - java-security-dependency-analysis-test
+      taskRef:
+        kind: Task
+        name: report
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+    - name: java-unit-test
+      runAfter:
+        - java-security-dependency-analysis-test
+      taskRef:
+        kind: Task
+        name: java-unit-test
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+    - name: java-build
+      runAfter:
+        - java-unit-test
+      taskRef:
+        kind: Task
+        name: java-build
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+    - name: java-trigger-buildconfig
+      params:
+        - name: buildconfig-name
+          value: $(params.buildconfig-name)
+      runAfter:
+        - java-build
+      taskRef:
+        kind: Task
+        name: java-trigger-buildconfig
+      workspaces:
+        - name: workspace-java
+          workspace: workspace-java
+  workspaces:
+    - name: workspace-java

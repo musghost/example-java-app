@@ -1,0 +1,25 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: report
+  namespace: ma-van-bijleveld-dev
+spec:
+  steps:
+    - computeResources: {}
+      image: 'quay.io/openshift/origin-cli:latest'
+      name: create-or-update-configmap
+      script: |
+        #!/usr/bin/env bash
+        cd $(workspaces.workspace-java.path)
+        cd java-app
+        set -e  
+        # Check if the ConfigMap already exists
+        if oc get configmap dependency-security-report >/dev/null 2>&1; then
+          # If it exists, update it
+          oc create configmap dependency-security-report --from-file=index.html=build/reports/dependency-check-report.html --dry-run=client -o yaml | oc replace --force -f -
+        else
+          # If it doesn't exist, create it
+          oc create configmap dependency-security-report --from-file=index.html=build/reports/dependency-check-report.html
+        fi
+  workspaces:
+    - name: workspace-java

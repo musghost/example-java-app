@@ -1,0 +1,9 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerBinding
+metadata:
+  name: java
+  namespace: ma-van-bijleveld-dev
+spec:
+  params:
+    - name: gitrevision
+      value: $(body.pull_request.head.sha)

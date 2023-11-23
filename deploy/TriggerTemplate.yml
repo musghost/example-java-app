@@ -1,0 +1,27 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: java
+  namespace: ma-van-bijleveld-dev
+spec:
+  params:
+    - default: main
+      description: The git revision
+      name: gitrevision
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: java-
+      spec:
+        params:
+          - name: git-url
+            value: 'https://github.com/ambtenaarmitchell/example-java-app.git'
+          - name: revision
+            value: main
+        pipelineRef:
+          name: java-pipeline
+        workspaces:
+          - name: workspace-java
+            persistentVolumeClaim:
+              claimName: workspace-java-pvc

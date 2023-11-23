@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: java-build
+  namespace: ma-van-bijleveld-dev
+spec:
+  steps:
+    - computeResources: {}
+      image: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      name: java-build
+      script: |
+        #!/usr/bin/env bash
+        cd $(workspaces.workspace-java.path)
+        cd java-app
+        gradle build
+  workspaces:
+    - name: workspace-java

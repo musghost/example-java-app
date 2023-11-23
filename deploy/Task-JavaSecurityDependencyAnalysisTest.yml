@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: java-security-dependency-analysis-test
+  namespace: ma-van-bijleveld-dev
+spec:
+  steps:
+    - computeResources: {}
+      image: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      name: java-security-dependency-analysis-test
+      script: |
+        #!/usr/bin/env bash
+        cd $(workspaces.workspace-java.path)
+        cd java-app
+        gradle dependencyCheckAnalyze
+  workspaces:
+    - name: workspace-java

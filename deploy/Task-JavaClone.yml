@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: java-pull
+  namespace: ma-van-bijleveld-dev
+spec:
+  params:
+    - description: The url of the Git Repository
+      name: git-url
+      type: string
+  steps:
+    - computeResources: {}
+      image: quay.io/wire/alpine-git
+      name: java-pull
+      script: |
+        #!/usr/bin/env bash
+        cd $(workspaces.workspace-java.path)
+        git clone $(params.git-url) java-app
+        cd java-app
+        ls -al
+  workspaces:
+    - name: workspace-java

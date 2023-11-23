@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: java-unit-test
+  namespace: ma-van-bijleveld-dev
+spec:
+  steps:
+    - computeResources: {}
+      image: 'registry.digitalocean.com/openshiftcourse/gradle:8-jdk17'
+      name: java-unit-test
+      script: |
+        #!/usr/bin/env bash
+        cd $(workspaces.workspace-java.path)
+        cd java-app
+        gradle test
+  workspaces:
+    - name: workspace-java

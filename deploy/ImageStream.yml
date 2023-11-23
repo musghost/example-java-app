@@ -1,0 +1,20 @@
+kind: ImageStream
+apiVersion: image.openshift.io/v1
+metadata:
+  name: java
+  namespace: ma-van-bijleveld-dev
+spec:
+  lookupPolicy:
+    local: true
+  tags:
+    - name: prd
+      annotations: null
+      from:
+        kind: ImageStreamImage
+        name: >-
+          java@sha256:209c8b2a8150f97c7142d5f0a18d705dbea1479a9cf2ffc7de16d18ff5748719
+      generation: 2
+      importPolicy:
+        importMode: Legacy
+      referencePolicy:
+        type: Source
